@@ -8,7 +8,7 @@ const app = express();
   
 // Configuration
 const PORT = 3000;
-const HOST = "localhost";
+const HOST = "127.0.0.1";
 const API_BASE_URL = "https://org21.test.makertown.jp/dtapi";
   
 // Logging the requests
