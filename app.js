@@ -1,12 +1,32 @@
-
-const express = require('express')
-const app = express()
-const port = process.env.PORT || 3000
-const host = process.env.HOST || '127.0.0.1'
-app.get('/', (req, res) => {
-  res.send("random=" + Math.random())
-})
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+const express = require("express");
+const morgan = require("morgan");
+const { createProxyMiddleware } = require("http-proxy-middleware");
+require("dotenv").config();
+  
+// Create Express Server
+const app = express();
+  
+// Configuration
+const PORT = 3000;
+const HOST = "localhost";
+const API_BASE_URL = "https://org21.test.makertown.jp/dtapi";
+  
+// Logging the requests
+app.use(morgan("dev"));
+  
+// Proxy Logic :  Proxy endpoints
+app.use(
+    "/dtapi",
+    createProxyMiddleware({
+        target: API_BASE_URL,
+        changeOrigin: true,
+        pathRewrite: {
+            "^/dtapi": "",
+        },
+    })
+);
+  
+// Starting our Proxy server
+app.listen(PORT, HOST, () => {
+    console.log(`Starting Proxy at ${HOST}:${PORT}`);
+});
