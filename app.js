@@ -19,10 +19,7 @@ app.use(
     "/dtapi",
     createProxyMiddleware({
         target: API_BASE_URL,
-        changeOrigin: true,
-        pathRewrite: {
-            "^/dtapi": "",
-        },
+        changeOrigin: true
     })
 );
   
