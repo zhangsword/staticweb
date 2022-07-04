@@ -1,0 +1,1 @@
+curl -X POST -H "Content-Type:application/json" -d '{"appId":"dtapi21","secret":"sec21","userId":"0001"}' https://org21.test.makertown.jp/dtapi/v1/createToken
