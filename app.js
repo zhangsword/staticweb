@@ -19,7 +19,7 @@ const baseUrl = "https://org21.test.makertown.jp/"
 app.use(morgan("dev"));
 
 app.all('*', (req, res) => {
-  console.log(req.originalUrl)
+  console.log(req.originalUrl, req.body)
   request.post(
     {
       url: baseUrl + req.originalUrl,
