@@ -35,8 +35,9 @@ app.post('/createToken', (req, res) => {
       },
     },
     function (err, response) {
+      console.log(response.body)
       if (!err && response.statusCode === 200) {
-        res.redirect(response.body)
+        res.send(response.body)
       } else {
         res.status(response.statusCode).send('get image error')
       }
