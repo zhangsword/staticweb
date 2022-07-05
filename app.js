@@ -12,7 +12,10 @@ app.use(express.json({ limit: '50mb' }));
 // Configuration
 const PORT = 8080;
 const HOST = "0.0.0.0";
-const API_BASE_URL = "https://org21.test.makertown.jp";
+const baseUrl = "https://org21.test.makertown.jp"
+const creattToken = "/dtapi/v1/createToken"
+const getProductDesign = "/dtapi/v1/getProduct"
+const getUserDesign = "/dtapi/v1/getUserDesign"
   
 // Logging the requests
 app.use(morgan("dev"));
@@ -22,8 +25,7 @@ app.post('/createToken', (req, res) => {
   console.log(appId, secret, userId)
   request.post(
     {
-      url:
-        API_BASE_URL + '/dtapi/v1/createToken',
+      url: baseUrl + creattToken,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -43,7 +45,29 @@ app.post('/createToken', (req, res) => {
       }
     }
   )
-  res.send('front app is running!')
+})
+
+app.post('/getUserDesigns', (req, res) => {
+  const {user_id, page, pageSize} = req.body
+  request.post(
+    {
+      url: baseUrl + getUserDesign,
+      headers: {
+        "content-type": "application/json",
+      },
+      json: true,
+      body: {
+        appId: 'dtapi21',
+        secret: 'sec21',
+        userId: user_id,
+        offset: (page -1)*pageSize,
+        limit: pageSize
+      },
+    },
+    function (err, response) {
+      res.send(response.body.designs)
+    }
+  )
 })
 
 // Proxy Logic :  Proxy endpoints
@@ -67,5 +91,5 @@ app.post('/createToken', (req, res) => {
   
 // Starting our Proxy server
 app.listen(PORT, HOST, () => {
-    console.log(`Starting Proxy at ${HOST}:${PORT}`);
+    console.log(`Starting server at ${HOST}:${PORT}`);
 });
